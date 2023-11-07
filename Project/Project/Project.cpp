@@ -1,11 +1,10 @@
+#include "Header.h"
 
-#include <raylib.h>
-#include <iostream>
+int main() {
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+
+    InitWindow(screenWidth, screenHeight, "raylib menu example");
 
 
-int main()
-{
-    
-    return 0;
 }
-
