@@ -16,7 +16,7 @@ void main()
 
     Vector2 playButtonPosition = { (float)screenWidth / 2 - 50, (float)screenHeight / 2 - 50 };
     Vector2 exitButtonPosition = { (float)screenWidth / 2 - 50, (float)screenHeight / 2 };
-    Vector2 changeMenuButton = { (float)screenWidth / 2 - 50, (float)screenHeight / 2 + 50 };
+    Vector2 changeMenuButton = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 50 };
 
 
     
@@ -63,18 +63,37 @@ void main()
         {
             DrawText("Exit", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, WHITE);
         }
-
-        if (CheckCollisionPointRec(GetMousePosition(), { changeMenuButton.x, changeMenuButton.y, 100, 50 }))
+        if (state == 0)
         {
-            DrawText("Change menu button", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, BLUE);
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            if (CheckCollisionPointRec(GetMousePosition(), { changeMenuButton.x, changeMenuButton.y, 450, 50 }))
             {
-                CloseWindow();
+                DrawText("Click to change - No", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, BLUE);
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                {
+
+                    state = 1;
+
+                }
+            }
+            else
+            {
+                DrawText("Click to change - No", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, WHITE);
             }
         }
         else
         {
-            DrawText("Change menu button", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, WHITE);
+            if (CheckCollisionPointRec(GetMousePosition(), { changeMenuButton.x, changeMenuButton.y, 450, 50 }))
+            {
+                DrawText("Click to change - Yes", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, BLUE);
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                {
+                    state = 0;
+                }
+            }
+            else
+            {
+                DrawText("Click to change - Yes", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, WHITE);
+            }
         }
         EndDrawing();
     }
