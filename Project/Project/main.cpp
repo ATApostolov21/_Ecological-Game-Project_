@@ -1,6 +1,6 @@
 ﻿#include "Header.h"
 
-int main() 
+void main() 
 {
     const int screenWidth = 800;
     const int screenHeight = 800;
@@ -21,6 +21,8 @@ int main()
    
 
     bool useTtf = false;
+
+
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -62,7 +64,6 @@ int main()
 
     CloseWindow();
 
-    return 0;
 }
 
 
