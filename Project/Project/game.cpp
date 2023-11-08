@@ -8,7 +8,7 @@ void main()
     InitWindow(screenWidth, screenHeight, "raylib menu example");
 
     Texture2D background = LoadTexture("../assets/background_menu.png");
-    Texture2D logo = LoadTexture("../assets/logo_menu.png");
+    Texture2D logo = LoadTexture("../assets/logoMenu.png");
 
     ////////////////
     short state = 0;
@@ -33,8 +33,13 @@ void main()
 
         ClearBackground(RAYWHITE);
 
+        Rectangle sourceRec = { 0.0f, 0.0f, (float)logo.width, (float)logo.height };
+        Rectangle destRec = { screenWidth / 3 - 100, 100, (float)logo.width * 0.5, (float)logo.height * 0.5 };
+        Vector2 origin = { 0.0f, 0.0f };
+
+        // Draw the logo with the new size
         DrawTexture(background, 0, 0, WHITE);
-        DrawTexture(logo, screenWidth/2 - 250, 100, RED);
+        DrawTexturePro(logo, sourceRec, destRec, origin, 0.0f, WHITE);
 
             if (CheckCollisionPointRec(GetMousePosition(), { playButtonPosition.x, playButtonPosition.y, 100, 50 }))
             {
