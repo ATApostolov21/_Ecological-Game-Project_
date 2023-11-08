@@ -2,8 +2,8 @@
 
 void main() 
 {
-    const int screenWidth = 800;
-    const int screenHeight = 800;
+    const int screenWidth = 1260;
+    const int screenHeight = 750;
 
     InitWindow(screenWidth, screenHeight, "raylib menu example");
 
@@ -34,7 +34,7 @@ void main()
         ClearBackground(RAYWHITE);
 
         DrawTexture(background, 0, 0, WHITE);
-        DrawTexture(logo, 100, 200, WHITE);
+        DrawTexture(logo, screenWidth/2 - 250, 100, RED);
 
             if (CheckCollisionPointRec(GetMousePosition(), { playButtonPosition.x, playButtonPosition.y, 100, 50 }))
             {
@@ -47,7 +47,7 @@ void main()
             }
             else
             {
-                DrawText("Play", playButtonPosition.x + 18, playButtonPosition.y + 15, 40, WHITE);
+                DrawText("Play", playButtonPosition.x + 18, playButtonPosition.y + 15, 40, RED);
             }
         
 
@@ -61,7 +61,7 @@ void main()
         }
         else 
         {
-            DrawText("Exit", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, WHITE);
+            DrawText("Exit", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, RED);
         }
         if (state == 0)
         {
@@ -77,7 +77,7 @@ void main()
             }
             else
             {
-                DrawText("Click to change - No", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, WHITE);
+                DrawText("Click to change - No", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, RED);
             }
         }
         else
@@ -92,7 +92,7 @@ void main()
             }
             else
             {
-                DrawText("Click to change - Yes", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, WHITE);
+                DrawText("Click to change - Yes", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, RED);
             }
         }
         EndDrawing();
