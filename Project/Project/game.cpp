@@ -9,13 +9,14 @@ void main()
 
     Texture2D background = LoadTexture("../assets/background_menu.png");
     Texture2D logo = LoadTexture("../assets/logo_menu.png");
+    Texture2D settings_icon = LoadTexture("../assets/settings_icon1.png");
 
     ////////////////
     short state = 0;
     ////////////////
 
-    Vector2 playButtonPosition = { (float)screenWidth / 2 - 50, (float)screenHeight / 2 - 50 };
-    Vector2 exitButtonPosition = { (float)screenWidth / 2 - 50, (float)screenHeight / 2 };
+    Vector2 playButtonPosition = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 150 };
+    Vector2 exitButtonPosition = { 0, screenHeight - 60};
     Vector2 changeMenuButton = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 50 };
 
 
@@ -31,25 +32,19 @@ void main()
     while (!WindowShouldClose()) {
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
 
-        DrawTexture(background, 0, 0, WHITE);
+        //DrawTexture(background, 0, 0, WHITE);
         DrawTexture(logo, screenWidth/2 - 250, 100, RED);
+        DrawTexture(settings_icon, screenWidth-175, 25, WHITE);
 
-            if (CheckCollisionPointRec(GetMousePosition(), { playButtonPosition.x, playButtonPosition.y, 100, 50 }))
-            {
-
-                DrawText("Play", playButtonPosition.x + 18, playButtonPosition.y + 15, 40, BLUE);
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        //
+        DrawText("Press SPACE to start", playButtonPosition.x, playButtonPosition.y, 40, WHITE);
+        if (IsKeyPressed(KEY_SPACE))
                 {
-                    // The game is here
+                    state = 1;
                 }
-            }
-            else
-            {
-                DrawText("Play", playButtonPosition.x + 18, playButtonPosition.y + 15, 40, RED);
-            }
-        
+        //
 
         if (CheckCollisionPointRec(GetMousePosition(), { exitButtonPosition.x, exitButtonPosition.y, 100, 50 })) 
         {
