@@ -10,6 +10,9 @@ void main()
     Texture2D background = LoadTexture("../assets/background_menu.png");
     Texture2D logo = LoadTexture("../assets/logo_menu.png");
     Texture2D settings_icon = LoadTexture("../assets/settings_icon.png");
+    //
+    Texture2D mapSelect_1 = LoadTexture("../assets/mapSmall_1.png");
+    
     //Texture2D settings_icon_pressed = LoadTexture("../assets/settings_icon_pressed.png");
     SetTargetFPS(60);
     ////////////////
@@ -21,6 +24,9 @@ void main()
     Vector2 exitButtonPosition = { 25, (float)screenHeight-75};
     Vector2 changeMenuButton = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 50 };
     Vector2 settingsButtonPosition = { screenWidth - 150, 0};
+
+    Vector2 mapSelectPosition = { screenWidth / 2 - 150, screenHeight / 2 - 250 };
+
 
 
 
@@ -119,12 +125,28 @@ void main()
             {
                 BeginDrawing();
                 ClearBackground(BLACK);
+                DrawText("Select map:", mapSelectPosition.x + 45, mapSelectPosition.y -75 , 40, WHITE);
+
+
+                if (CheckCollisionPointRec(GetMousePosition(), { mapSelectPosition.x - 115, mapSelectPosition.y + 80, 60, 60 }))
+                {
+                    DrawText("<", mapSelectPosition.x - 100, mapSelectPosition.y + 70, 100, GOLD);
+
+                }
+                else { DrawText("<", mapSelectPosition.x - 100, mapSelectPosition.y + 70, 100, WHITE); }
+
+                if (CheckCollisionPointRec(GetMousePosition(), { mapSelectPosition.x + 355, mapSelectPosition.y + 80, 60, 60 }))
+                {
+                    DrawText(">", mapSelectPosition.x + 370, mapSelectPosition.y + 70, 100, GOLD);
+
+                }
+                else { DrawText(">", mapSelectPosition.x + 370, mapSelectPosition.y + 70, 100, WHITE); }
+
+                DrawTexture(mapSelect_1, mapSelectPosition.x, mapSelectPosition.y, WHITE);
 
 
 
 
-
-                
                 if (CheckCollisionPointRec(GetMousePosition(), { exitButtonPosition.x, exitButtonPosition.y, 100, 50 }))
                 {
                     DrawText("Back", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, GOLD);
