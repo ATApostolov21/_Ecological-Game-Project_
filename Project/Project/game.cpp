@@ -1,6 +1,6 @@
 ﻿#include "Header.h"
 
-int main()
+void main()
 {
     const int screenWidth = 1260;
     const int screenHeight = 750;
@@ -85,5 +85,4 @@ int main()
     }
 
     CloseWindow();
-    return 0;
 }
