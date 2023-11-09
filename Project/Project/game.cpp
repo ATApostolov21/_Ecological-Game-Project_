@@ -9,8 +9,6 @@ short currentScreen;
 
 void main()
 {
-    const int screenWidth = 1260;
-    const int screenHeight = 750;
 
     InitWindow(screenWidth, screenHeight, "raylib menu example");
 
@@ -146,10 +144,7 @@ void main()
             }
             case 3:
             {
-                BeginDrawing();
-                ClearBackground(BLACK);
-                DrawText("Back", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, BLUE);
-                EndDrawing();
+                currentScreen = inGame(currentMap);
             }
         }
     }

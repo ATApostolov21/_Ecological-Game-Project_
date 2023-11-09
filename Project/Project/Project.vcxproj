@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ingame.cpp" />
     <ClCompile Include="pre_game.cpp" />
   </ItemGroup>
   <ItemGroup>
