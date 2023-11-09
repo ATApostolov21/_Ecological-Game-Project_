@@ -2,3 +2,4 @@
 #include <raylib.h>
 #include <iostream>
 void main();
+short preGame();

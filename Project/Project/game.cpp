@@ -1,5 +1,12 @@
 ﻿#include "Header.h"
-typedef enum GameScreen { MAIN = 0, SETTINGS} GameScreen;
+short currentScreen;
+// 0 - MAIN MENU
+// 1 - SETTINGS
+// 2 - PREGAME SCREEN
+// 3 - INGAME SCREEN
+// 4 - END SCREEN
+
+
 void main()
 {
     const int screenWidth = 1260;
@@ -10,22 +17,20 @@ void main()
     Texture2D background = LoadTexture("../assets/background_menu.png");
     Texture2D logo = LoadTexture("../assets/logo_menu.png");
     Texture2D settings_icon = LoadTexture("../assets/settings_icon.png");
-    //
+    
     Texture2D mapSelect_1 = LoadTexture("../assets/mapSmall_1.png");
     
     //Texture2D settings_icon_pressed = LoadTexture("../assets/settings_icon_pressed.png");
     SetTargetFPS(60);
-    ////////////////
-    short state = 0;
-    ////////////////
-    GameScreen currentScreen = MAIN;
+
+    currentScreen = 0;
 
     Vector2 playButtonPosition = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 150 };
     Vector2 exitButtonPosition = { 25, (float)screenHeight-75};
     Vector2 changeMenuButton = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 50 };
     Vector2 settingsButtonPosition = { screenWidth - 150, 0};
 
-    Vector2 mapSelectPosition = { screenWidth / 2 - 150, screenHeight / 2 - 250 };
+    Vector2 mapSelectPosition = { screenWidth / 2 - 140, screenHeight / 2 - 250 };
 
 
 
@@ -33,15 +38,16 @@ void main()
     Font fontTtf = LoadFontEx("../assets/PixAntiqua.ttf", 32, 0, 250);
 
 
-
+    bool showPreGameScreen = true;
     bool useTtf = false;
 
 
+    short currentMap = 1;
 
     while (!WindowShouldClose()) {
         switch (currentScreen)
         {
-            case MAIN:
+            case 0:
             {
                 BeginDrawing();
 
@@ -55,7 +61,7 @@ void main()
                     DrawTexture(settings_icon, settingsButtonPosition.x, settingsButtonPosition.y, GOLD);
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                     {
-                        currentScreen = SETTINGS;
+                        currentScreen = 1;
                     }
                 }
                 else
@@ -69,8 +75,10 @@ void main()
                 DrawText("Press SPACE to start", playButtonPosition.x, playButtonPosition.y, 40, WHITE);
                 if (IsKeyPressed(KEY_SPACE))
                 {
-                    CloseWindow();
-                    // The game is here
+                    if (showPreGameScreen)
+                        currentScreen = 2;
+                    else
+                        currentScreen = 3;
                 }
 
 
@@ -86,42 +94,10 @@ void main()
                 {
                     DrawText("Exit", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, WHITE);
                 }
-                if (state == 0)
-                {
-                    if (CheckCollisionPointRec(GetMousePosition(), { changeMenuButton.x, changeMenuButton.y, 450, 50 }))
-                    {
-                        DrawText("Click to change - No", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, GOLD);
-                        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-                        {
-
-                            state = 1;
-
-                        }
-                    }
-                    else
-                    {
-                        DrawText("Click to change - No", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, WHITE);
-                    }
-                }
-                else
-                {
-                    if (CheckCollisionPointRec(GetMousePosition(), { changeMenuButton.x, changeMenuButton.y, 450, 50 }))
-                    {
-                        DrawText("Click to change - Yes", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, GOLD);
-                        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-                        {
-                            state = 0;
-                        }
-                    }
-                    else
-                    {
-                        DrawText("Click to change - Yes", changeMenuButton.x + 18, changeMenuButton.y + 15, 40, WHITE);
-                    }
-                }
                 EndDrawing();
                 break;
             }
-            case SETTINGS:
+            case 1:
             {
                 BeginDrawing();
                 ClearBackground(BLACK);
@@ -152,7 +128,7 @@ void main()
                     DrawText("Back", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, GOLD);
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                     {
-                        currentScreen = MAIN;
+                        currentScreen = 0;
                     }
                 }
                 else
@@ -162,6 +138,18 @@ void main()
                 
                 EndDrawing();
                 break;
+            }
+            case 2:
+            {
+
+                currentScreen = preGame();
+            }
+            case 3:
+            {
+                BeginDrawing();
+                ClearBackground(BLACK);
+                DrawText("Back", exitButtonPosition.x + 18, exitButtonPosition.y + 15, 40, BLUE);
+                EndDrawing();
             }
         }
     }
