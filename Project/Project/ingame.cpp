@@ -64,13 +64,14 @@ short inGame(short map)
                 // Check for collision with sprite
                 if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)character.width, (float)character.height }, { (float)objects[i].posX - 15, (float)objects[i].posY - 15, 30, 30 }))
                 {
-                    objects[i].grabbed = true;
+                    DrawText("[SPACE] to pick up", spritePosition.x+20, spritePosition.y - 20, 20, WHITE);
+                    if (IsKeyPressed(KEY_SPACE))
+                    {
+                        objects[i].grabbed = true;
+                    }
                     trashPicked++;
                 }
-                else
-                {
-                    DrawTexture(trashSprite, objects[i].posX, objects[i].posY, WHITE);
-                }
+                DrawTexture(trashSprite, objects[i].posX, objects[i].posY, WHITE);
             }
         }
     }
