@@ -27,12 +27,14 @@ void main()
     Vector2 exitButtonPosition = { 25, (float)screenHeight-75};
     Vector2 changeMenuButton = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 50 };
     Vector2 settingsButtonPosition = { screenWidth - 150, 0};
+    
+    
 
     Vector2 mapSelectPosition = { screenWidth / 2 - 140, screenHeight / 2 - 250 };
 
 
 
-
+    
     Font fontTtf = LoadFontEx("../assets/PixAntiqua.ttf", 32, 0, 250);
 
 
@@ -42,7 +44,9 @@ void main()
 
     short currentMap = 1;
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose()) 
+    {
+        
         switch (currentScreen)
         {
             case 0:
@@ -77,6 +81,9 @@ void main()
                         currentScreen = 2;
                     else
                         currentScreen = 3;
+                    
+                    
+
                 }
 
 

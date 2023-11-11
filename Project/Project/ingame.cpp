@@ -15,6 +15,11 @@ short inGame(short map)
 	int randPosX = 0;
 	int randPosY = 0;
 	Texture2D mapDisplay = LoadTexture("../assets/map_1.png");
+	Texture2D texture = LoadTexture("../assets/sprite_temp.png");
+
+	
+	Vector2 spritePosition = { (float)screenWidth / 2, (float)screenHeight / 2 };
+
 	while (true)
 	{
 		frameTime++;
@@ -22,7 +27,12 @@ short inGame(short map)
 		BeginDrawing();
 		ClearBackground(bgColor);
 		//DrawTexture(mapDisplay, 0, 200, WHITE);
+		DrawTexture(texture, spritePosition.x, spritePosition.y, WHITE);
 		DrawText(TextFormat("Current randPos: %d, %d", randPosX, randPosY), screenWidth / 2 - 200, 100, 40, WHITE);
+		if (IsKeyDown(KEY_W)) spritePosition.y -= 2.0f;
+		if (IsKeyDown(KEY_S)) spritePosition.y += 2.0f;
+		if (IsKeyDown(KEY_A)) spritePosition.x -= 2.0f;
+		if (IsKeyDown(KEY_D)) spritePosition.x += 2.0f;
 		
 		EndDrawing();
 		if (frameTime >= 60)
