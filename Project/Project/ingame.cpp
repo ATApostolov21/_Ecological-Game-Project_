@@ -17,7 +17,8 @@ short inGame(short map)
     int randPosX = 0;
     int randPosY = 0;
     Texture2D mapDisplay = LoadTexture("../assets/map_1.png");
-    Texture2D texture = LoadTexture("../assets/sprite_temp.png");
+    Texture2D character = LoadTexture("../assets/sprite_temp.png");
+    Texture2D trashSprite = LoadTexture("../assets/trash.png");
 
     Vector2 spritePosition = { (float)screenWidth / 2, (float)screenHeight / 2 };
 
@@ -28,12 +29,12 @@ short inGame(short map)
         BeginDrawing();
         ClearBackground(bgColor);
         //DrawTexture(mapDisplay, 0, 200, WHITE);
-        DrawTexture(texture, spritePosition.x, spritePosition.y, WHITE);
+        DrawTexture(character, spritePosition.x, spritePosition.y, WHITE);
         DrawText(TextFormat("Current randPos: %d, %d", randPosX, randPosY), screenWidth / 2 - 200, 100, 40, WHITE);
         if (IsKeyDown(KEY_W) && spritePosition.y > 0) spritePosition.y -= 6.0f;
-        if (IsKeyDown(KEY_S) && spritePosition.y < screenHeight - texture.height) spritePosition.y += 6.0f;
+        if (IsKeyDown(KEY_S) && spritePosition.y < screenHeight - character.height) spritePosition.y += 6.0f;
         if (IsKeyDown(KEY_A) && spritePosition.x > 0) spritePosition.x -= 6.0f;
-        if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - texture.width) spritePosition.x += 6.0f;
+        if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - character.width) spritePosition.x += 6.0f;
 
         EndDrawing();
 
@@ -59,13 +60,13 @@ short inGame(short map)
             if (objects[i].grabbed == false)
             {
                 // Check for collision with sprite
-                if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)texture.width, (float)texture.height }, { (float)objects[i].posX - 15, (float)objects[i].posY - 15, 30, 30 }))
+                if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)character.width, (float)character.height }, { (float)objects[i].posX - 15, (float)objects[i].posY - 15, 30, 30 }))
                 {
                     objects[i].grabbed = true;
                 }
                 else
                 {
-                    DrawCircle(objects[i].posX, objects[i].posY, 15, RED);
+                    DrawTexture(trashSprite, objects[i].posX, objects[i].posY, WHITE);
                 }
             }
         }

@@ -104,12 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\_Ecological-Game-Project_\raylib\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\User\Downloads\_Ecological-Game-Project_-100d24778f95f3b44afa33b9eeb71de8c87ba3d5\_Ecological-Game-Project_\raylib\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\_Ecological-Game-Project_\raylib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\User\Downloads\_Ecological-Game-Project_-100d24778f95f3b44afa33b9eeb71de8c87ba3d5\_Ecological-Game-Project_\raylib</AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;raylib.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
