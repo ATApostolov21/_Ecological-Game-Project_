@@ -30,10 +30,10 @@ short inGame(short map)
         //DrawTexture(mapDisplay, 0, 200, WHITE);
         DrawTexture(texture, spritePosition.x, spritePosition.y, WHITE);
         DrawText(TextFormat("Current randPos: %d, %d", randPosX, randPosY), screenWidth / 2 - 200, 100, 40, WHITE);
-        if (IsKeyDown(KEY_W)) spritePosition.y -= 2.0f;
-        if (IsKeyDown(KEY_S)) spritePosition.y += 2.0f;
-        if (IsKeyDown(KEY_A)) spritePosition.x -= 2.0f;
-        if (IsKeyDown(KEY_D)) spritePosition.x += 2.0f;
+        if (IsKeyDown(KEY_W) && spritePosition.y > 0) spritePosition.y -= 6.0f;
+        if (IsKeyDown(KEY_S) && spritePosition.y < screenHeight - texture.height) spritePosition.y += 6.0f;
+        if (IsKeyDown(KEY_A) && spritePosition.x > 0) spritePosition.x -= 6.0f;
+        if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - texture.width) spritePosition.x += 6.0f;
 
         EndDrawing();
 
