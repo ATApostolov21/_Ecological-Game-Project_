@@ -21,8 +21,9 @@ short inGame(short map, const short trash)
     Texture2D character = LoadTexture("../assets/sprite_temp.png");
     Texture2D trashSprite = LoadTexture("../assets/trash.png");
     Texture2D dumpsterSprite = LoadTexture("../assets/dumpster.png");
+    Font font = LoadFontEx("../assets/PixAntiqua.ttf", 32, 0, 250);
 
-    Vector2 spritePosition = { static_cast<int>((float)screenWidth / 2), static_cast<int>((float)screenHeight / 2) };
+    Vector2 spritePosition = { static_cast<float>(screenWidth / 2), static_cast<float>(screenHeight / 2) };
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
@@ -39,13 +40,13 @@ short inGame(short map, const short trash)
                 DrawTexture(trashSprite, objects[i].posX, objects[i].posY, WHITE);
             }
         }
-        DrawTexture(dumpsterSprite  , screenWidth/2-64, screenHeight - 125, WHITE);
-        DrawTexture(character, spritePosition.x, spritePosition.y, WHITE);
-        DrawText(TextFormat("Current randPos: %d, %d", randPosX, randPosY), screenWidth / 2 - 200, 100, 40, WHITE);
-        DrawText(TextFormat("Trash picked: %d", trashPicked), screenWidth - 165, screenHeight - 20, 20, WHITE);
-        
+        DrawTexture(dumpsterSprite, screenWidth / 2 - 64, screenHeight - 125, WHITE);
+        DrawTexture(character, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
+        DrawTextEx(font, TextFormat("Current randPos: %d, %d", randPosX, randPosY), { screenWidth / 2 - 200, 100 }, font.baseSize, 2.0f, WHITE);
+        DrawTextEx(font, TextFormat("Trash picked: %d", trashPicked), { screenWidth - 165, screenHeight - 20 }, font.baseSize, 2.0f, WHITE);
+
         if (IsKeyDown(KEY_W) && spritePosition.y > 0) spritePosition.y -= 6.0f;
-        if (IsKeyDown(KEY_S) && spritePosition.y < screenHeight-125 - character.height) spritePosition.y += 6.0f;
+        if (IsKeyDown(KEY_S) && spritePosition.y < screenHeight - 125 - character.height) spritePosition.y += 6.0f;
         if (IsKeyDown(KEY_A) && spritePosition.x > 0) spritePosition.x -= 6.0f;
         if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - character.width) spritePosition.x += 6.0f;
 
@@ -73,13 +74,13 @@ short inGame(short map, const short trash)
                 // Check for collision with sprite
                 if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)character.width, (float)character.height }, { (float)objects[i].posX - 15, (float)objects[i].posY - 15, 30, 30 }))
                 {
-                    DrawText("[SPACE] to pick up", spritePosition.x + 20, spritePosition.y - 20, 20, WHITE);
+                    DrawTextEx(font, "[SPACE] to pick up", { spritePosition.x + 20, spritePosition.y - 20 }, font.baseSize, 2.0f, WHITE);
                     if (IsKeyPressed(KEY_SPACE))
                     {
                         objects[i].grabbed = true;
                         trashPicked++;
                     }
-                    
+
                 }
                 DrawTexture(trashSprite, objects[i].posX, objects[i].posY, WHITE);
             }
@@ -91,6 +92,7 @@ short inGame(short map, const short trash)
     UnloadTexture(character);
     UnloadTexture(trashSprite);
     UnloadTexture(dumpsterSprite);
+    UnloadFont(font);
     UnloadTexture(mapDisplay);
     return 0;
 }
