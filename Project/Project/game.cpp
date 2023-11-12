@@ -17,6 +17,7 @@ void main()
     Texture2D settings = LoadTexture("../assets/settings_menu.png");
     Texture2D settings_icon = LoadTexture("../assets/settings_icon.png");
     Texture2D mapSelect_1 = LoadTexture("../assets/mapSmall_1.png");
+    Texture2D mapSelect_2 = LoadTexture("../assets/mapSmall_2.png");
 
     //Texture2D settings_icon_pressed = LoadTexture("../assets/settings_icon_pressed.png");
     SetTargetFPS(60);
@@ -43,8 +44,9 @@ void main()
     bool closeGame = false;
     bool spaceBarShow = true;
     short numberOfObjects = 10;
-
+    float charSpeed = 6.0f;
     short currentMap = 1;
+    int gameTime = 30;
 
     while (true)
     {
@@ -131,6 +133,13 @@ void main()
 
                 if (CheckCollisionPointRec(GetMousePosition(), { mapSelectPosition.x - 100, mapSelectPosition.y + 80, 60, 60 }))
                 {
+                    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                    {
+                        if (currentMap == 1)
+                            currentMap = 2;
+                        else
+                            currentMap--;
+                    }
                     DrawTextEx(font, "<", { mapSelectPosition.x - 85, mapSelectPosition.y + 70 }, 100, 2.0f, GOLD);
 
                 }
@@ -138,12 +147,19 @@ void main()
 
                 if (CheckCollisionPointRec(GetMousePosition(), { mapSelectPosition.x + 340, mapSelectPosition.y + 80, 60, 60 }))
                 {
+                    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                    {
+                        if (currentMap == 2)
+                            currentMap = 1;
+                        else
+                            currentMap++;
+                    }
                     DrawTextEx(font, ">", { mapSelectPosition.x + 355, mapSelectPosition.y + 70 }, 100, 2.0f, GOLD);
                 }
                 else { DrawTextEx(font, ">", { mapSelectPosition.x + 355, mapSelectPosition.y + 70 }, 100, 2.0f, WHITE); }
 
-                DrawTexture(mapSelect_1, mapSelectPosition.x, mapSelectPosition.y, WHITE);
-
+                if(currentMap == 1) DrawTexture(mapSelect_1, mapSelectPosition.x, mapSelectPosition.y, WHITE);
+                else if (currentMap == 2) DrawTexture(mapSelect_2, mapSelectPosition.x, mapSelectPosition.y, WHITE);
 
                 if(numberOfObjects < 10) DrawTextEx(font, TextFormat(" Number of objects:     %d     ", numberOfObjects), { screenWidth / 2 - 195, 600 }, 30, 2.0f, WHITE);
                 else DrawTextEx(font, TextFormat(" Number of objects:     %d     ", numberOfObjects), { screenWidth / 2 - 200, 600 }, 30, 2.0f, WHITE);
@@ -171,6 +187,28 @@ void main()
                     DrawTextEx(font, "-", { screenWidth / 2 + 115, 595 }, 40, 2.0f, WHITE);
 
 
+                DrawTextEx(font, TextFormat("Character speed:     %.0f    ", charSpeed), { (float)screenWidth / 2 - 192, 640 }, 30, 2.0f, WHITE);
+                if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + (float)157.5, 632.5, 30, 30 }))
+                {
+                    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                    {
+                        if (charSpeed < 50) charSpeed++;
+                    }
+                    DrawTextEx(font, ">", { screenWidth / 2 + (float)157.5, 632.5 }, 40, 2.0f, GREEN);
+                }
+                else
+                    DrawTextEx(font, ">", { screenWidth / 2 + (float)157.5, 632.5 }, 40, 2.0f, WHITE);
+                if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + 90, 632.5, 30, 30 }))
+                {
+                    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                    {
+                        if (charSpeed > 1) charSpeed--;
+                    }
+                    DrawTextEx(font, "<", { screenWidth / 2 + 90, 632.5 }, 40, 2.0f, RED);
+                }
+                else
+                    DrawTextEx(font, "<", { screenWidth / 2 + 90, 632.5 }, 40, 2.0f, WHITE);
+
                 if (IsKeyPressed(KEY_ESCAPE)) currentScreen = 0;
 
             }
@@ -187,7 +225,7 @@ void main()
         }
         case 3:
         {
-            currentScreen = inGame(currentMap, numberOfObjects);
+            currentScreen = inGame(charSpeed, gameTime, currentMap, numberOfObjects);
         }
         }
         if (frameTime >= 60)
@@ -206,5 +244,6 @@ void main()
     UnloadTexture(settings_icon);
     UnloadFont(font);
     UnloadTexture(mapSelect_1);
+    UnloadTexture(mapSelect_2);
     CloseWindow();
 }

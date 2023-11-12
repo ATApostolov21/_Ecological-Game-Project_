@@ -8,17 +8,27 @@ struct TRASH {
     bool grabbed = true;
 };
 
-short inGame(short map, const short trash)
+short inGame(float charSpeed, int gameTimeHolder, short map, const short trash)
 {
     //const short trash = 10;
     TRASH objects[20];
-
+    
+    short trashCounter = 0;
     int trashPicked = 0;
     int frameTime = 0;
     int randPosX = 0;
     int randPosY = 0;
-    Texture2D mapDisplay = LoadTexture("../assets/game_bg.png");
-    Texture2D character = LoadTexture("../assets/sprite_temp.png");
+    int gameTime = gameTimeHolder * GetFrameTime(); // Game time in seconds, multiplied by the frametime to convert to frames
+    int highScore = 0;
+    bool gameOver = false;
+    Texture2D map1 = LoadTexture("../assets/map_1.png");
+    Texture2D map2 = LoadTexture("../assets/map_2.png");
+
+    Texture2D charFront = LoadTexture("../assets/charFront.png");
+    Texture2D charBack = LoadTexture("../assets/charBack.png");
+    Texture2D charLeft = LoadTexture("../assets/charLeft.png");
+    Texture2D charRight = LoadTexture("../assets/charRight.png");
+
     Texture2D trashSprite = LoadTexture("../assets/trash.png");
     Texture2D dumpsterSprite = LoadTexture("../assets/dumpster.png");
     Font font = LoadFontEx("../assets/PixAntiqua.ttf", 32, 0, 250);
@@ -27,12 +37,13 @@ short inGame(short map, const short trash)
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
+        if (!gameOver) gameTime--;
         frameTime++;
-        Color bgColor = { 0, 51, 102 };
+        //Color bgColor = { 0, 51, 102 };
         BeginDrawing();
-        ClearBackground(bgColor);
-        DrawTexturePro(mapDisplay, { 0.0f, 0.0f, (float)mapDisplay.width, (float)mapDisplay.height }, { 0.0f, 0.0f, (float)GetScreenWidth(), (float)GetScreenHeight() }, { 0, 0 }, 0.0f, WHITE);
-
+        ClearBackground(BLACK);
+        if(map == 1) DrawTexturePro(map1, { 0.0f, 0.0f, (float)map1.width, (float)map1.height }, { 0.0f, 0.0f, (float)GetScreenWidth() - 350, (float)GetScreenHeight() }, { 0, 0 }, 0.0f, WHITE);
+        else if(map == 2) DrawTexturePro(map2, { 0.0f, 0.0f, (float)map2.width, (float)map2.height }, { 0.0f, 0.0f, (float)GetScreenWidth() - 350, (float)GetScreenHeight() }, { 0, 0 }, 0.0f, WHITE);
         for (int i = 0; i < trash; i++)
         {
             if (objects[i].grabbed == false)
@@ -41,30 +52,43 @@ short inGame(short map, const short trash)
             }
         }
         DrawTexture(dumpsterSprite, screenWidth / 2 - 64, screenHeight - 125, WHITE);
-        DrawTexture(character, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
-        DrawTextEx(font, TextFormat("Current randPos: %d, %d", randPosX, randPosY), { screenWidth / 2 - 200, 100 }, font.baseSize, 2.0f, WHITE);
-        DrawTextEx(font, TextFormat("Trash picked: %d", trashPicked), { screenWidth - 165, screenHeight - 20 }, font.baseSize, 2.0f, WHITE);
-
-        if (IsKeyDown(KEY_W) && spritePosition.y > 0) spritePosition.y -= 6.0f;
-        if (IsKeyDown(KEY_S) && spritePosition.y < screenHeight - 125 - character.height) spritePosition.y += 6.0f;
-        if (IsKeyDown(KEY_A) && spritePosition.x > 0) spritePosition.x -= 6.0f;
-        if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - character.width) spritePosition.x += 6.0f;
+        
+        //DrawTextEx(font, TextFormat("Current randPos: %d, %d", randPosX, randPosY), { screenWidth / 2 - 200, 100 }, font.baseSize, 2.0f, WHITE);
+        DrawTextEx(font, TextFormat("Trash picked: %d", trashPicked), { screenWidth - 265, screenHeight - 40 }, font.baseSize, 2.0f, WHITE);
+        DrawTextEx(font, TextFormat("Time remaining: %d", gameTime / 60), { 20, 20 }, 40, 2.0f, WHITE); // Display the remaining time
+        if (!gameOver)
+        {
+            if (IsKeyDown(KEY_W) && spritePosition.y > 0) { spritePosition.y -= charSpeed; DrawTexture(charBack, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
+            }
+            if (IsKeyDown(KEY_S) && spritePosition.y < screenHeight - 125 - charFront.height) { spritePosition.y += charSpeed; DrawTexture(charFront, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
+            }
+            if (IsKeyDown(KEY_A) && spritePosition.x > 0) { spritePosition.x -= charSpeed; DrawTexture(charLeft, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
+            }
+            if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - 325 - charRight.width) { spritePosition.x += charSpeed; DrawTexture(charRight, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
+            }
+            if (!(  IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)) ) { DrawTexture(charFront, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE); }
+        }
+        
 
         if (frameTime >= 60)
         {
-            randPosX = rand() % 1060 + 100;
+            randPosX = rand() % 850 + 100;
             randPosY = rand() % 600 + 100;
             frameTime = 0;
-            for (int i = 0; i < trash; i++)
+            if (!gameOver)
             {
-                if (objects[i].grabbed == true)
+                for (int i = 0; i < trash; i++)
                 {
-                    objects[i].grabbed = false;
-                    objects[i].posX = randPosX;
-                    objects[i].posY = randPosY;
-                    break;
+                    if (objects[i].grabbed == true)
+                    {
+                        objects[i].grabbed = false;
+                        objects[i].posX = randPosX;
+                        objects[i].posY = randPosY;
+                        break;
+                    }
                 }
             }
+            
         }
 
         for (int i = 0; i < trash; i++)
@@ -72,27 +96,53 @@ short inGame(short map, const short trash)
             if (objects[i].grabbed == false)
             {
                 // Check for collision with sprite
-                if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)character.width, (float)character.height }, { (float)objects[i].posX - 15, (float)objects[i].posY - 15, 30, 30 }))
+                if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)charFront.width, (float)charFront.height }, { (float)objects[i].posX - 15, (float)objects[i].posY - 15, 30, 30 }))
                 {
                     //DrawTextEx(font, "[SPACE] to pick up", { spritePosition.x + 20, spritePosition.y - 20 }, font.baseSize, 2.0f, WHITE);
-                    if (IsKeyPressed(KEY_SPACE))
+                    if (IsKeyPressed(KEY_SPACE) && trashCounter < 3)
                     {
+                        trashCounter++;
                         objects[i].grabbed = true;
                         trashPicked++;
+                        gameTime += 2 * 60; // Add 2 seconds to the game time
+                        if (trashPicked > highScore) {
+                            highScore = trashPicked; // Update the high score
+                        }
                     }
 
                 }
                 DrawTexture(trashSprite, objects[i].posX, objects[i].posY, WHITE);
             }
         }
+
+        if (gameTime <= 0) {
+            gameOver = true;
+            DrawTextEx(font, "GAME OVER", { screenWidth / 2 - MeasureText("GAME OVER", 50) / 2 + 15, screenHeight / 2 - 50 }, 50, 2.0f, RED);
+            DrawTextEx(font, TextFormat("High Score: %d", highScore), { screenWidth / 2 - MeasureText(TextFormat("High Score: %d", highScore), 30) / 2, screenHeight / 2 }, 30, 2.0f, RED);
+            DrawTextEx(font, "Press [ENTER] to start again", { screenWidth / 2 - MeasureText("Press [ENTER] to start again", 20) / 2 + 5, screenHeight / 2 + 100 }, 20, 2.0f, WHITE);
+            DrawTextEx(font, "Press [ESC] to return to menu", { screenWidth / 2 - MeasureText("Press [ESC] to return to menu", 20) / 2 + 5, screenHeight / 2 + 140 }, 20, 2.0f, WHITE);
+            if (IsKeyPressed(KEY_ENTER)) {
+                gameTime = gameTimeHolder * 60;
+                trashPicked = 0;
+                gameOver = false;
+                for (int i = 0; i < trash; i++) {
+                    objects[i].grabbed = true;
+                }
+            }
+        }
+
         EndDrawing();
     }
 
-    UnloadTexture(mapDisplay);
-    UnloadTexture(character);
+    UnloadTexture(map1);
+    UnloadTexture(map2);
+    UnloadTexture(charFront);
+    UnloadTexture(charBack);
+    UnloadTexture(charRight);
+    UnloadTexture(charLeft);
+
     UnloadTexture(trashSprite);
     UnloadTexture(dumpsterSprite);
     UnloadFont(font);
-    UnloadTexture(mapDisplay);
     return 0;
 }

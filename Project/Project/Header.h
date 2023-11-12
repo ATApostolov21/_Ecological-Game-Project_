@@ -6,4 +6,4 @@ const float screenHeight = 850;
 
 void main();
 short preGame();
-short inGame(short map, const short trash);
+short inGame(float charSpeed, int gameTime, short map, const short trash);

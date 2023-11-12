@@ -8,10 +8,11 @@ short preGame()
 	{
 		BeginDrawing();
 		ClearBackground(BLACK);
-		DrawTextEx(font, "Press ENTER to start", { screenWidth / 2 - 150, screenHeight / 2 + 300 }, font.baseSize, 2.0f, WHITE);
-		DrawTextEx(font, "Press ESC to go back to menu", { screenWidth / 2 - 230, screenHeight / 2 + 340 }, font.baseSize, 2.0f, WHITE);
-		DrawTextEx(font, "Controls", { screenWidth / 2 - 480, screenHeight / 2 - 300 }, font.baseSize, 2.0f, WHITE);
-		DrawTexture(WASD, screenWidth / 2 - 525, screenHeight / 2 - 250, WHITE);
+		DrawTextEx(font, "Press ENTER to start", { screenWidth / 2 - MeasureText("Press ENTER to start", font.baseSize) / 2 + 15, screenHeight / 2 + 300 }, font.baseSize, 2.0f, WHITE);
+		DrawTextEx(font, "Press ESC to go back to menu", { screenWidth / 2 - MeasureText("Press ESC to go back to menu", font.baseSize) / 2 + 15, screenHeight / 2 + 340 }, font.baseSize, 2.0f, WHITE);
+		DrawTextEx(font, "Press Space to pick up", { screenWidth / 2 - MeasureText("Press Space to pick up", font.baseSize) / 2 + 10, screenHeight / 2 + 100 }, font.baseSize, 2.0f, WHITE); // Added this line
+		DrawTextEx(font, "Controls", { screenWidth / 2 - MeasureText("Controls", font.baseSize) / 2, screenHeight / 2 - 300 }, font.baseSize, 2.0f, WHITE);
+		DrawTexture(WASD, screenWidth / 2 - WASD.width / 2, screenHeight / 2 - WASD.height / 2, WHITE);
 		EndDrawing();
 	}
 	UnloadTexture(WASD);
