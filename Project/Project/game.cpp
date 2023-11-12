@@ -30,7 +30,7 @@ void main()
     
     
 
-    Vector2 mapSelectPosition = { screenWidth / 2 - 140, screenHeight / 2 - 250 };
+    Vector2 mapSelectPosition = { screenWidth / 2 - 135, screenHeight / 2 - 150 };
 
 
 
@@ -40,24 +40,32 @@ void main()
 
     bool showPreGameScreen = true;
     bool useTtf = false;
-
+    bool closeGame = false;
+    short numberOfObjects = 10;
 
     short currentMap = 1;
 
-    while (!WindowShouldClose()) 
+    while (true) 
     {
-        
+        if (WindowShouldClose() && currentScreen == 0 && closeGame == false)
+            closeGame = true;
+        else if (closeGame && IsKeyPressed(KEY_ESCAPE))
+        {
+            break;
+        }
         switch (currentScreen)
         {
         case 0: case 1:
             {
                 BeginDrawing();
-
                 ClearBackground(BLACK);
 
                 DrawTexture(background, 0, 0, WHITE);
                 DrawTexture(logo, screenWidth / 2 - 200, 100, WHITE);
-
+                if (closeGame)
+                {
+                    DrawText("Press ESC again if you want to quit", 200, 425, 80, RED);
+                }
                 if (CheckCollisionPointRec(GetMousePosition(), { settingsButtonPosition.x, settingsButtonPosition.y, 190, 135 }))
                 {
                     DrawTexture(settings_icon, settingsButtonPosition.x, settingsButtonPosition.y, GOLD);
@@ -109,7 +117,57 @@ void main()
 
                 if (currentScreen == 1)
                 {
-                    DrawTexture(settings, screenWidth / 2-215, screenHeight / 2-350, WHITE);
+                   
+                    DrawTexture(settings, screenWidth / 2-260, screenHeight / 2-375, WHITE);
+
+                    DrawText("Settings", screenWidth / 2 - 110, 100, 60, WHITE);
+                    DrawText("Select map:", mapSelectPosition.x + 40, mapSelectPosition.y - 75, 40, WHITE);
+
+
+                    if (CheckCollisionPointRec(GetMousePosition(), { mapSelectPosition.x - 100, mapSelectPosition.y + 80, 60, 60 }))
+                    {
+                        DrawText("<", mapSelectPosition.x - 85, mapSelectPosition.y + 70, 100, GOLD);
+
+                    }
+                    else { DrawText("<", mapSelectPosition.x - 85, mapSelectPosition.y + 70, 100, WHITE); }
+
+                    if (CheckCollisionPointRec(GetMousePosition(), { mapSelectPosition.x + 340, mapSelectPosition.y + 80, 60, 60 }))
+                    {
+                        DrawText(">", mapSelectPosition.x + 355, mapSelectPosition.y + 70, 100, GOLD);
+
+                    }
+                    else { DrawText(">", mapSelectPosition.x + 355, mapSelectPosition.y + 70, 100, WHITE); }
+
+                    DrawTexture(mapSelect_1, mapSelectPosition.x, mapSelectPosition.y, WHITE);
+
+
+                    DrawText(TextFormat("Number of objects:     %d     ",numberOfObjects), screenWidth / 2 - 200, 600, 30, WHITE);
+                    if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + 200, 595, 30, 30 }))
+                    {
+                        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                        {
+                            if (numberOfObjects < 20) numberOfObjects++;
+                            else numberOfObjects = 1;
+                        }
+                        DrawText("+", screenWidth / 2 + 200, 595, 40, GREEN);
+                    }
+                    else
+                        DrawText("+", screenWidth / 2 + 200, 595, 40, WHITE);
+                    if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + 105, 595, 30, 30 }))
+                    {
+                        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                        {
+                            if (numberOfObjects > 1) numberOfObjects--;
+                            else numberOfObjects = 20;
+                        }
+                        DrawText("-", screenWidth / 2 + 105, 595, 40, RED);
+                    }
+                    else
+                        DrawText("-", screenWidth / 2 + 105, 595, 40, WHITE);
+
+
+                    if ( IsKeyPressed(KEY_ESCAPE)) currentScreen = 0;
+
                 }
 
 
@@ -123,7 +181,7 @@ void main()
             }
             case 3:
             {
-                currentScreen = inGame(currentMap);
+                currentScreen = inGame(currentMap, numberOfObjects);
             }
         }
     }

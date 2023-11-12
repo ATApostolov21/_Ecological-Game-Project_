@@ -8,10 +8,10 @@ struct TRASH {
     bool grabbed = true;
 };
 
-short inGame(short map)
+short inGame(short map, const short trash)
 {
-    const short trash = 10;
-    TRASH objects[trash];
+    //const short trash = 10;
+    TRASH objects[20];
 
     int trashPicked = 0;
     int frameTime = 0;
