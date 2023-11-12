@@ -23,7 +23,7 @@ short inGame(short map, const short trash)
     Texture2D dumpsterSprite = LoadTexture("../assets/dumpster.png");
 
     Vector2 spritePosition = { static_cast<int>((float)screenWidth / 2), static_cast<int>((float)screenHeight / 2) };
-
+    SetTargetFPS(60);
     while (!WindowShouldClose())
     {
         frameTime++;
@@ -52,7 +52,7 @@ short inGame(short map, const short trash)
         if (frameTime >= 60)
         {
             randPosX = rand() % 1060 + 100;
-            randPosY = rand() % 700 + 200;
+            randPosY = rand() % 600 + 100;
             frameTime = 0;
             for (int i = 0; i < trash; i++)
             {
@@ -87,6 +87,10 @@ short inGame(short map, const short trash)
         EndDrawing();
     }
 
+    UnloadTexture(mapDisplay);
+    UnloadTexture(character);
+    UnloadTexture(trashSprite);
+    UnloadTexture(dumpsterSprite);
     UnloadTexture(mapDisplay);
     return 0;
 }

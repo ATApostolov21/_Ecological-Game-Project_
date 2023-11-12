@@ -20,6 +20,7 @@ void main()
     
     //Texture2D settings_icon_pressed = LoadTexture("../assets/settings_icon_pressed.png");
     SetTargetFPS(60);
+    short frameTime = 0;
 
     currentScreen = 0;
 
@@ -27,7 +28,6 @@ void main()
     Vector2 exitButtonPosition = { 25, (float)screenHeight-75};
     Vector2 changeMenuButton = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 50 };
     Vector2 settingsButtonPosition = { screenWidth - 150, 0};
-    
     
 
     Vector2 mapSelectPosition = { screenWidth / 2 - 135, screenHeight / 2 - 150 };
@@ -41,12 +41,15 @@ void main()
     bool showPreGameScreen = true;
     bool useTtf = false;
     bool closeGame = false;
+    bool spaceBarShow = true;
     short numberOfObjects = 10;
 
     short currentMap = 1;
 
     while (true) 
     {
+        frameTime++;
+
         if (WindowShouldClose() && currentScreen == 0 && closeGame == false)
             closeGame = true;
         else if (closeGame && IsKeyPressed(KEY_ESCAPE))
@@ -89,7 +92,9 @@ void main()
 
 
 
-                DrawText("Press SPACE to start", playButtonPosition.x, playButtonPosition.y, 40, WHITE);
+                if(spaceBarShow)
+                    DrawText("Press SPACE to start", playButtonPosition.x, playButtonPosition.y, 40, WHITE);
+                
                 if (IsKeyPressed(KEY_SPACE))
                 {
                     if (showPreGameScreen)
@@ -178,12 +183,27 @@ void main()
             {
 
                 currentScreen = preGame();
+                break;
             }
             case 3:
             {
                 currentScreen = inGame(currentMap, numberOfObjects);
             }
         }
+        if (frameTime >= 60)
+        {
+            if(spaceBarShow)
+                spaceBarShow = 0;
+            else 
+                spaceBarShow = 1;
+
+            frameTime = 0;
+        }
     }
+    UnloadTexture(background);
+    UnloadTexture(logo);
+    UnloadTexture(settings);
+    UnloadTexture(settings_icon);
+    UnloadTexture(mapSelect_1);
     CloseWindow();
 }
