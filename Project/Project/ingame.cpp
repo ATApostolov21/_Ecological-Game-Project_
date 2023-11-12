@@ -19,7 +19,7 @@ short inGame(float charSpeed, int gameTimeHolder, short map, const short trash)
     int randPosX = 0;
     int randPosY = 0;
     int gameTime = gameTimeHolder * GetFrameTime(); // Game time in seconds, multiplied by the frametime to convert to frames
-    int highScore = 0;
+    int score = 0;
     bool gameOver = false;
     Texture2D map1 = LoadTexture("../assets/map_1.png");
     Texture2D map2 = LoadTexture("../assets/map_2.png");
@@ -54,8 +54,9 @@ short inGame(float charSpeed, int gameTimeHolder, short map, const short trash)
         DrawTexture(dumpsterSprite, screenWidth / 2 - 64, screenHeight - 125, WHITE);
         
         //DrawTextEx(font, TextFormat("Current randPos: %d, %d", randPosX, randPosY), { screenWidth / 2 - 200, 100 }, font.baseSize, 2.0f, WHITE);
-        DrawTextEx(font, TextFormat("Trash picked: %d", trashPicked), { screenWidth - 265, screenHeight - 40 }, font.baseSize, 2.0f, WHITE);
-        DrawTextEx(font, TextFormat("Time remaining: %d", gameTime / 60), { 20, 20 }, 40, 2.0f, WHITE); // Display the remaining time
+        DrawTextEx(font, TextFormat("Trash picked: %d", trashPicked), { screenWidth - 300, screenHeight - 40 }, font.baseSize, 2.0f, WHITE);
+        DrawTextEx(font, TextFormat("Score: %d", score), { screenWidth - 250, screenHeight / 2 }, font.baseSize, 2.0f, WHITE);
+        DrawTextEx(font, TextFormat("Time remaining: %d", gameTime / 60), { screenWidth - 315, 20 }, 30, 2.0f, WHITE); // Display the remaining time
         if (!gameOver)
         {
             if (IsKeyDown(KEY_W) && spritePosition.y > 0) { spritePosition.y -= charSpeed; DrawTexture(charBack, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
@@ -73,7 +74,7 @@ short inGame(float charSpeed, int gameTimeHolder, short map, const short trash)
         if (frameTime >= 60)
         {
             randPosX = rand() % 850 + 100;
-            randPosY = rand() % 600 + 100;
+            randPosY = rand() % 500 + 200;
             frameTime = 0;
             if (!gameOver)
             {
@@ -104,10 +105,8 @@ short inGame(float charSpeed, int gameTimeHolder, short map, const short trash)
                         trashCounter++;
                         objects[i].grabbed = true;
                         trashPicked++;
-                        gameTime += 2 * 60; // Add 2 seconds to the game time
-                        if (trashPicked > highScore) {
-                            highScore = trashPicked; // Update the high score
-                        }
+                        gameTime += 1 * 60; // Add 2 seconds to the game time
+                        score += 10;
                     }
 
                 }
@@ -115,10 +114,21 @@ short inGame(float charSpeed, int gameTimeHolder, short map, const short trash)
             }
         }
 
+
+        if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)charFront.width, (float)charFront.height }, { screenWidth / 2 - 32, screenHeight - 125 - 15, 60, 30 }))
+        {
+            if(trashCounter == 1) score += 10;
+            if(trashCounter == 2) score += 20;
+            if(trashCounter == 3) score += 30;
+            trashPicked = 0;
+            trashCounter = 0;
+        }
+
+
         if (gameTime <= 0) {
             gameOver = true;
-            DrawTextEx(font, "GAME OVER", { screenWidth / 2 - MeasureText("GAME OVER", 50) / 2 + 15, screenHeight / 2 - 50 }, 50, 2.0f, RED);
-            DrawTextEx(font, TextFormat("High Score: %d", highScore), { screenWidth / 2 - MeasureText(TextFormat("High Score: %d", highScore), 30) / 2, screenHeight / 2 }, 30, 2.0f, RED);
+            DrawTextEx(font, "GAME OVER", { screenWidth / 2 - MeasureText("GAME OVER", 50) / 2 + 15, screenHeight / 2 - 100 }, 50, 2.0f, RED);
+            DrawTextEx(font, TextFormat("High Score: %d", score), { screenWidth / 2 - MeasureText(TextFormat("High Score: %d", score), 30) / 2, screenHeight / 2 - 50 }, 30, 2.0f, RED);
             DrawTextEx(font, "Press [ENTER] to start again", { screenWidth / 2 - MeasureText("Press [ENTER] to start again", 20) / 2 + 5, screenHeight / 2 + 100 }, 20, 2.0f, WHITE);
             DrawTextEx(font, "Press [ESC] to return to menu", { screenWidth / 2 - MeasureText("Press [ESC] to return to menu", 20) / 2 + 5, screenHeight / 2 + 140 }, 20, 2.0f, WHITE);
             if (IsKeyPressed(KEY_ENTER)) {

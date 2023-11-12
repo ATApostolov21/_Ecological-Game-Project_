@@ -69,7 +69,7 @@ void main()
             DrawTexture(logo, screenWidth / 2 - 222.5, 100, WHITE);
             if (closeGame)
             {
-                DrawTextEx(font, "Press ESC again if you want to quit", { 200, 425 }, font.baseSize, 2.0f, RED);
+                DrawTextEx(font, "Press ESC again if you want to quit", { 475, 425 }, font.baseSize, 2.0f, RED);
             }
             if (CheckCollisionPointRec(GetMousePosition(), { settingsButtonPosition.x, settingsButtonPosition.y, 190, 135 }))
             {
