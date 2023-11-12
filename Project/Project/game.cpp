@@ -136,7 +136,7 @@ void main()
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                     {
                         if (currentMap == 1)
-                            currentMap = 2;
+                            currentMap = 1;
                         else
                             currentMap--;
                     }
@@ -149,7 +149,7 @@ void main()
                 {
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                     {
-                        if (currentMap == 2)
+                        if (currentMap == 1)
                             currentMap = 1;
                         else
                             currentMap++;
@@ -208,6 +208,30 @@ void main()
                 }
                 else
                     DrawTextEx(font, "<", { screenWidth / 2 + 90, 632.5 }, 40, 2.0f, WHITE);
+
+                DrawTextEx(font, TextFormat("Game time:     %d    ", gameTime), { (float)screenWidth / 2 - 192, 680 }, 30, 2.0f, WHITE);
+                if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + (float)75, 672.5, 30, 30 }))
+                {
+                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                    {
+                        if (gameTime < 301) gameTime++;
+                        else gameTime = 1;
+                    }
+                    DrawTextEx(font, ">", { screenWidth / 2 + (float)75, 672.5 }, 40, 2.0f, GREEN);
+                }
+                else
+                    DrawTextEx(font, ">", { screenWidth / 2 + (float)75, 672.5 }, 40, 2.0f, WHITE);
+                if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 - 10, 672.5, 30, 30 }))
+                {
+                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                    {
+                        if (gameTime > 1) gameTime--;
+                        else gameTime = 300;
+                    }
+                    DrawTextEx(font, "<", { screenWidth / 2 - 10, 672.5 }, 40, 2.0f, RED);
+                }
+                else
+                    DrawTextEx(font, "<", { screenWidth / 2 - 10, 672.5 }, 40, 2.0f, WHITE);
 
                 if (IsKeyPressed(KEY_ESCAPE)) currentScreen = 0;
 
