@@ -49,7 +49,6 @@ short inGame(short map, const short trash)
         if (IsKeyDown(KEY_A) && spritePosition.x > 0) spritePosition.x -= 6.0f;
         if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - character.width) spritePosition.x += 6.0f;
 
-
         if (frameTime >= 60)
         {
             randPosX = rand() % 1060 + 100;
