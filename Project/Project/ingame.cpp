@@ -74,7 +74,7 @@ short inGame(short map, const short trash)
                 // Check for collision with sprite
                 if (CheckCollisionRecs({ (float)spritePosition.x, (float)spritePosition.y, (float)character.width, (float)character.height }, { (float)objects[i].posX - 15, (float)objects[i].posY - 15, 30, 30 }))
                 {
-                    DrawTextEx(font, "[SPACE] to pick up", { spritePosition.x + 20, spritePosition.y - 20 }, font.baseSize, 2.0f, WHITE);
+                    //DrawTextEx(font, "[SPACE] to pick up", { spritePosition.x + 20, spritePosition.y - 20 }, font.baseSize, 2.0f, WHITE);
                     if (IsKeyPressed(KEY_SPACE))
                     {
                         objects[i].grabbed = true;

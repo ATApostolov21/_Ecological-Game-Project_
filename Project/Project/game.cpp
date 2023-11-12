@@ -24,7 +24,7 @@ void main()
 
     currentScreen = 0;
 
-    Vector2 playButtonPosition = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 150 };
+    Vector2 playButtonPosition = { (float)screenWidth / 2 - 190, (float)screenHeight / 2 + 150 };
     Vector2 exitButtonPosition = { 25, (float)screenHeight - 75 };
     Vector2 changeMenuButton = { (float)screenWidth / 2 - 200, (float)screenHeight / 2 + 50 };
     Vector2 settingsButtonPosition = { screenWidth - 150, 0 };
@@ -64,7 +64,7 @@ void main()
             ClearBackground(BLACK);
 
             DrawTexture(background, 0, 0, WHITE);
-            DrawTexture(logo, screenWidth / 2 - 200, 100, WHITE);
+            DrawTexture(logo, screenWidth / 2 - 222.5, 100, WHITE);
             if (closeGame)
             {
                 DrawTextEx(font, "Press ESC again if you want to quit", { 200, 425 }, font.baseSize, 2.0f, RED);
@@ -109,7 +109,7 @@ void main()
 
             if (CheckCollisionPointRec(GetMousePosition(), { exitButtonPosition.x, exitButtonPosition.y, 100, 50 }))
             {
-                DrawTextEx(font, "Exit", { exitButtonPosition.x + 18, exitButtonPosition.y + 15 }, 40, 2.0f, WHITE);
+                DrawTextEx(font, "Exit", { exitButtonPosition.x + 18, exitButtonPosition.y + 15 }, 40, 2.0f, RED);
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     CloseWindow();
@@ -145,7 +145,8 @@ void main()
                 DrawTexture(mapSelect_1, mapSelectPosition.x, mapSelectPosition.y, WHITE);
 
 
-                DrawTextEx(font, TextFormat("Number of objects:     %d     ", numberOfObjects), { screenWidth / 2 - 200, 600 }, 30, 2.0f, WHITE);
+                if(numberOfObjects < 10) DrawTextEx(font, TextFormat(" Number of objects:     %d     ", numberOfObjects), { screenWidth / 2 - 195, 600 }, 30, 2.0f, WHITE);
+                else DrawTextEx(font, TextFormat(" Number of objects:     %d     ", numberOfObjects), { screenWidth / 2 - 200, 600 }, 30, 2.0f, WHITE);
                 if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + 200, 595, 30, 30 }))
                 {
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -157,17 +158,17 @@ void main()
                 }
                 else
                     DrawTextEx(font, "+", { screenWidth / 2 + 200, 595 }, 40, 2.0f, WHITE);
-                if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + 105, 595, 30, 30 }))
+                if (CheckCollisionPointRec(GetMousePosition(), { screenWidth / 2 + 115, 595, 30, 30 }))
                 {
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                     {
                         if (numberOfObjects > 1) numberOfObjects--;
                         else numberOfObjects = 20;
                     }
-                    DrawTextEx(font, "-", { screenWidth / 2 + 105, 595 }, 40, 2.0f, RED);
+                    DrawTextEx(font, "-", { screenWidth / 2 + 115, 595 }, 40, 2.0f, RED);
                 }
                 else
-                    DrawTextEx(font, "-", { screenWidth / 2 + 105, 595 }, 40, 2.0f, WHITE);
+                    DrawTextEx(font, "-", { screenWidth / 2 + 115, 595 }, 40, 2.0f, WHITE);
 
 
                 if (IsKeyPressed(KEY_ESCAPE)) currentScreen = 0;
