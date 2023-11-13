@@ -104,13 +104,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\User\Downloads\_Ecological-Game-Project_-100d24778f95f3b44afa33b9eeb71de8c87ba3d5\1\_Ecological-Game-Project_\raylib\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>\_Ecological-Game-Project_\raylib\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\User\Downloads\_Ecological-Game-Project_-100d24778f95f3b44afa33b9eeb71de8c87ba3d5\1\_Ecological-Game-Project_\raylib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>/_Ecological-Game-Project_\raylib</AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;raylib.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);</AdditionalDependencies>
+      <PerUserRedirection>true</PerUserRedirection>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
