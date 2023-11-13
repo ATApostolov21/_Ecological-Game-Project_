@@ -67,7 +67,7 @@ short inGame(float charSpeed, int gameTimeHolder, short map, const short trash)
             }
             if (IsKeyDown(KEY_D) && spritePosition.x < screenWidth - 325 - charRight.width) { spritePosition.x += charSpeed; DrawTexture(charRight, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE);
             }
-            if (!(  IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)) ) { DrawTexture(charFront, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE); }
+            if (!(  IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)) || !(spritePosition.y < screenHeight - 125 - charFront.height) || !(spritePosition.x < screenWidth - 325 - charRight.width)) { DrawTexture(charFront, static_cast<int>(spritePosition.x), static_cast<int>(spritePosition.y), WHITE); }
         }
         
 

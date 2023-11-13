@@ -38,7 +38,6 @@ void main()
 
     Font font = LoadFontEx("../assets/PixAntiqua.ttf", 32, 0, 250);
 
-
     bool showPreGameScreen = true;
     bool useTtf = false;
     bool closeGame = false;
@@ -232,6 +231,17 @@ void main()
                 }
                 else
                     DrawTextEx(font, "<", { screenWidth / 2 - 10, 672.5 }, 40, 2.0f, WHITE);
+
+               
+                if (CheckCollisionPointRec(GetMousePosition(), { (float)screenWidth / 2 - 192, 720 , 275, 30 }))
+                {
+                    DrawTextEx(font, TextFormat("Toggle fullscreen"), { (float)screenWidth / 2 - 192, 720 }, 30, 2.0f, GOLD);
+                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                    {
+                        ToggleFullscreen();
+                    }
+                }
+                else DrawTextEx(font, TextFormat("Toggle fullscreen"), { (float)screenWidth / 2 - 192, 720 }, 30, 2.0f, WHITE);
 
                 if (IsKeyPressed(KEY_ESCAPE)) currentScreen = 0;
 
